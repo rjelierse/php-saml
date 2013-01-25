@@ -1,30 +1,38 @@
 <?php
 
+namespace OneLogin\Saml;
+
+use DOMDocument;
+use Exception;
+
+use Shareworks\XmlSecurity\Signature;
+use Shareworks\XmlSecurity\Encoder;
+
 /**
  * Determine if the SAML response is valid using a provided x509 certificate.
  */
-class OneLogin_Saml_XmlSec
+class XmlSec
 {
     /**
      * A SamlResponse class provided to the constructor.
-     * @var OneLogin_Saml_Settings
+     * @var Settings
      */
     protected $_settings;
 
     /**
      * The document to be tested.
-     * @var DomDocument
+     * @var \DomDocument
      */
     protected $_document;
 
     /**
      * Construct the SamlXmlSec object.
      *
-     * @param OneLogin_Saml_Settings $settings A SamlResponse settings object containing the necessary
+     * @param Settings $settings A SamlResponse settings object containing the necessary
      *                                          x509 certicate to test the document.
-     * @param OneLogin_Saml_Response $response The document to test.
+     * @param Response $response The document to test.
      */
-    public function __construct(OneLogin_Saml_Settings $settings, OneLogin_Saml_Response $response)
+    public function __construct(Settings $settings, Response $response)
     {
         $this->_settings = $settings;
         $this->_document = clone $response->document;
@@ -70,7 +78,7 @@ class OneLogin_Saml_XmlSec
      */
     public function isValid()
     {
-        $objXMLSecDSig = new XMLSecurityDSig();
+        $objXMLSecDSig = new Signature();
 
         $objDSig = $objXMLSecDSig->locateSignature($this->_document);
         if (!$objDSig) {
@@ -100,7 +108,7 @@ class OneLogin_Saml_XmlSec
             throw new Exception('We have no idea about the key');
         }
 
-        XMLSecEnc::staticLocateKeyInfo($objKey, $objDSig);
+        Encoder::staticLocateKeyInfo($objKey, $objDSig);
 
         $objKey->loadKey($this->_settings->idpPublicCertificate, FALSE, TRUE);
 

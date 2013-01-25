@@ -1,26 +1,28 @@
 <?php
-require_once('Settings.php');
+
+namespace OneLogin\Saml;
+
 /**
  * Create a SAML authorization request.
  */
-class OneLogin_Saml_AuthRequest
+class AuthRequest
 {
     const ID_PREFIX = 'ONELOGIN';
 
     /**
      * A SamlResponse class provided to the constructor.
-     * @var OneLogin_Saml_Settings
+     * @var Settings
      */
     protected $_settings;
 
     /**
      * Construct the response object.
      *
-     * @param OneLogin_Saml_Settings $settings
+     * @param Settings $settings
      *   A SamlResponse settings object containing the necessary
      *   x509 certicate to decode the XML.
      */
-    public function __construct(OneLogin_Saml_Settings $settings)
+    public function __construct(Settings $settings)
     {
         $this->_settings = $settings;
     }

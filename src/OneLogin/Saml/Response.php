@@ -1,12 +1,18 @@
 <?php
 
+namespace OneLogin\Saml;
+
+use DOMDocument;
+use DOMXPath;
+use Exception;
+
 /**
  * Parse the SAML response and maintain the XML for it.
  */
-class OneLogin_Saml_Response
+class Response
 {
     /**
-     * @var OneLogin_Saml_Settings
+     * @var Settings
      */
     protected $_settings;
 
@@ -25,10 +31,10 @@ class OneLogin_Saml_Response
     /**
      * Construct the response object.
      *
-     * @param OneLogin_Saml_Settings $settings Settings containing the necessary X.509 certificate to decode the XML.
+     * @param Settings $settings Settings containing the necessary X.509 certificate to decode the XML.
      * @param string $assertion A UUEncoded SAML assertion from the IdP.
      */
-    public function __construct(OneLogin_Saml_Settings $settings, $assertion)
+    public function __construct(Settings $settings, $assertion)
     {
         $this->_settings = $settings;
         $this->assertion = base64_decode($assertion);
@@ -44,7 +50,7 @@ class OneLogin_Saml_Response
      */
     public function isValid()
     {
-        $xmlSec = new OneLogin_Saml_XmlSec($this->_settings, $this);
+        $xmlSec = new XmlSec($this->_settings, $this);
         return $xmlSec->isValid();
     }
 
@@ -80,7 +86,7 @@ class OneLogin_Saml_Response
         $entries = $this->_queryAssertion('/saml:AttributeStatement/saml:Attribute');
 
         $attributes = array();
-        /** @var $entry DOMNode */
+        /** @var $entry \DOMNode */
         foreach ($entries as $entry) {
             $attributeName = $entry->attributes->getNamedItem('Name')->nodeValue;
 
@@ -98,7 +104,7 @@ class OneLogin_Saml_Response
 
     /**
      * @param string $assertionXpath
-     * @return DOMNodeList
+     * @return \DOMNodeList
      */
     protected function _queryAssertion($assertionXpath)
     {
