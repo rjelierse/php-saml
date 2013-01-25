@@ -11,8 +11,8 @@
             "homepage": "http://www.onelogin.com"
         },
         {
-            "name": "Raymond Jelierse",
-            "email": "raymond@shareworks.nl"
+            "name": "Community",
+            "homepage": "https://github.com/onelogin/php-saml/contributors"
         }
     ],
     "require": {
