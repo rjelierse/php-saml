@@ -1,0 +1,26 @@
+{
+    "name": "onelogin/php-saml",
+    "type": "library",
+    "description": "PHP implementation of a SAML2.0 Service Provider.",
+    "keywords": ["saml 2.0", "security", "service provider"],
+    "homepage": "https://github.com/onelogin/php-saml",
+    "license": "OneLogin",
+    "authors": [
+        {
+            "name": "Christian Pedersen",
+            "homepage": "http://www.onelogin.com"
+        },
+        {
+            "name": "Raymond Jelierse",
+            "email": "raymond@shareworks.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "shareworks/xml-security": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "OneLogin\\Saml\\": "src/"}
+    },
+    "minimum-stability": "dev"
+}
